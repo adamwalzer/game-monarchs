@@ -48,7 +48,7 @@ export default function (props, ref, key, opts = {}) {
 
     getGameSrc = function () {
         if (!_.get(props, 'data.game.screenStart')) return;
-        return `../monarch-phaser/index.html?v=${opts.level}`;
+        return `../monarchs-flyer/index.html?v=${opts.level}`;
     };
 
     onOpenReveal = function () {
