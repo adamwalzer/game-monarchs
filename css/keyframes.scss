@@ -1,0 +1,32 @@
+@keyframes number-flash {
+    0% {opacity: 0;}
+    10% {opacity: 1;}
+    90% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+$xs:
+    (0   70   90  200  230  340  355)
+    (0   10 -130 -160 -380 -410 -510 -527)
+    (0  280  322)
+    (0  150);
+$ys:
+    (0    0  75    75  -65  -65  -30)
+    (0 -120 -140 -260 -270 -200 -200 -263)
+    (0    0  113)
+    (0    0);
+
+$length: length($xs);
+
+@for $i from 1 through $length {
+    @keyframes butterfly-fly-#{$i} {
+        $x: nth($xs, $i);
+        $y: nth($ys, $i);
+        $l: length($x);
+        @for $j from 1 through $l {
+            #{percentage(($j - 1) / ($l - 1))} {
+                transform: translateX(#{nth($x, $j)}px) translateY(#{nth($y, $j)}px);
+            }
+        }
+    }
+}

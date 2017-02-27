@@ -1,0 +1,57 @@
+@import 'variables';
+@import 'mixins';
+
+#flip {
+    .butterfly {
+        position: absolute;
+        top: 8%;
+        left: 5%;
+        transform: rotate(-9deg);
+        width: 12%;
+    }
+
+    .flip {
+        position: absolute;
+        bottom: 20%;
+        left: 61%;
+        animation-name: bounceInDown;
+        width: 30%;
+    }
+
+    .copy-container {
+        position: absolute;
+        top: 50%;
+        left: 15%;
+        transform: translateY(-50%);
+        text-align: left;
+        line-height: 50px;
+        color: $black;
+        font-size: 40px;
+
+        .flip {
+            position: absolute;
+            top: 85%;
+            left: 57%;
+            text-shadow: 2px  2px 0 $black,
+                         2px -2px 0 $black,
+                        -2px  2px 0 $black,
+                        -2px -2px 0 $black;
+            color: $light-orange;
+            font-size: 80px;
+        }
+
+        &::after {
+            position: absolute;
+            top: 95%;
+            left: 108%;
+            transform: rotate(8deg);
+            background: url('#{$sprite}sprite.life.png');
+            background-repeat: no-repeat;
+            background-position: 33% 0;
+            background-size: auto 200%;
+            width: 42%;
+            height: 50%;
+            content: '';
+        }
+    }
+}

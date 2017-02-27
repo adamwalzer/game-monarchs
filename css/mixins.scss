@@ -1,0 +1,151 @@
+@import 'variables';
+@import '../../shared/css/mixins/import';
+
+// this can be used as an example for creating sprite mixins
+@mixin nav-button($column, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.mainnav.png', 2000px, 315px, 8, 2, $column, 1, 2, $width, $height);
+}
+
+@mixin sprite-continue($column, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.continue.png', 192px, 105px, 1, 2, $column, 1, 2, $width, $height);
+}
+
+@mixin sprite-butterfly($column, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.butterflyhover.png', 360px, 150px, 4, 2, $column, 1, 2, $width, $height);
+}
+
+@mixin sprite-circle($column, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.circles.png', 345px, 230px, 3, 2, $column, 1, 1, $width, $height);
+}
+
+@mixin sprite-circle-complete($column, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.circles.png', 345px, 230px, 3, 2, $column, 2, 2, $width, $height);
+}
+
+@mixin sprite-circle-star($column: 1, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.starmap.png', 45px, 90px, 1, 2, $column, 1, 1, $width, $height);
+}
+
+@mixin sprite-circle-star-grey($column: 1, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.starmap.png', 45px, 90px, 1, 2, $column, 2, 2, $width, $height);
+}
+
+@mixin sprite-transition($column, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.transition.png', 1035px, 235px, 3, 1, $column, 1, 1, $width, $height);
+}
+
+@mixin sprite-meter($column, $width: 0, $height: 0) {
+    @include sprite($sprite + 'sprite.meter.png', 630px, 42px, 4, 1, $column, 1, 1, $width, $height);
+}
+
+// can be used in flyer game
+// work later to move this function to a shared/css/mixins
+@mixin score-meter($steps: 4, $meter-color: $light-green) {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    margin: 10px 10px 10px 40px;
+    width: 160px;
+    height: 17px;
+    vertical-align: middle;
+
+    &::after {
+        position: absolute;
+        bottom: 3px;
+        left: 5%;
+        opacity: .6;
+        z-index: 1;
+        border-radius: 10px;
+        background-color: $light-grey;
+        width: 90%;
+        height: 5px;
+        content: '';
+    }
+
+    span {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: transparent;
+        font-size: 0;
+
+        &::before,
+        &::after {
+            display: block;
+            position: absolute;
+            border-radius: 0 50px 50px 0;
+            height: 100%;
+            content: '';
+        }
+
+        &::before {
+            top: 0;
+            left: 0;
+            background-color: $white;
+            width: 100%;
+        }
+
+        &::after {
+            top: 0;
+            left: 0;
+
+            // scss-lint:disable VendorPrefix
+            -webkit-transition: width .5s cubic-bezier(.53, 0, .63, 1);
+            // scss-lint:enable VendorPrefix
+            transition: width .5s cubic-bezier(.53, -.56, .63, 1.74);
+
+            background: $meter-color;
+            background-repeat: no-repeat;
+            background-size: fill;
+
+            width: 0;
+        }
+    }
+
+    @for $i from 0 through $steps {
+        &.score-#{$i} {
+            span::after {
+                width: percentage($i / $steps);
+            }
+        }
+    }
+}
+
+// can be used in grid game
+@mixin life-tracker() {
+    &::before,
+    &::after {
+        content: '';
+    }
+
+    &::before,
+    span,
+    &::after {
+        @include sprite-circle-star-grey;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    span {
+        color: transparent;
+        font-size: 0;
+    }
+
+    &.score-1::before,
+    &.score-2::before,
+    &.score-2 span,
+    &.score-3::before,
+    &.score-3 span,
+    &.score-3::after {
+        @include sprite-circle-star;
+    }
+}
+
+
+@mixin life-cycle($column, $width: 0, $height: 0) {
+    @include sprite('#{$sprite}sprite.life.png', 600px, 214px, 4, 2, $column, 1, 2, $width, $height);
+}

@@ -1,0 +1,183 @@
+@import 'variables';
+@import 'mixins';
+@import 'fonts';
+
+@include reset;
+@include bootstrap-game;
+
+html {
+    color: $text-color;
+}
+
+.skoash-game {
+    font-family: 'Chelsea Market';
+
+    > .menu {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
+    }
+}
+
+button {
+    &.close {
+        @include nav-button(6, 60px, 60px);
+    }
+
+    &.next-screen,
+    &.prev-screen,
+    &.close-reveal {
+        display: block;
+        position: absolute;
+        bottom: 10px;
+        z-index: 2;
+        margin: 0;
+        width: 140px;
+        height: 55px;
+    }
+
+    &.next-screen {
+        @include nav-button(5, 140px, 65px);
+        right: 15px;
+    }
+
+    &.prev-screen {
+        @include nav-button(4, 140px, 65px);
+        left: 15px;
+    }
+
+    &.quit-yes,
+    &.quit-no {
+        bottom: 10%;
+        width: 220px;
+        height: 110px;
+    }
+
+    &.quit-yes {
+        @include nav-button(2, 220px, 110px);
+        left: 17%;
+    }
+
+    &.quit-no {
+        @include nav-button(3, 220px, 110px);
+        right: 17%;
+    }
+}
+
+.skoash-game {
+    $screens:
+        title
+        info-video-one
+        info-video-two
+        life-stages
+        first-stage
+        instructions-1
+        bonus-level-one
+        bonus-level-two
+        info-video-pupa
+        info-you-won
+        video-monarch
+        info-migrate
+        monarch-generations-1
+        monarch-generations-2
+        monarch-generations-3
+        monarch-generations-4
+        flip;
+
+    $backgrounds:
+        title
+        bkg-4
+        bkg-1
+        bkg-1
+        bkg-1
+        bkg-3
+        bkg-3
+        bkg-3
+        bkg-1
+        bkg-3
+        bkg-1
+        bkg-5
+        bkg-4
+        bkg-4
+        bkg-4
+        bkg-4
+        bkg-1;
+
+    &:not(.MENU) {
+        @include screen-backgrounds($screens, $backgrounds);
+    }
+
+    &.MENU.MENU-quit .background.bkg-1 {
+        opacity: 1;
+    }
+
+    .background {
+        $background-titles:
+            title
+            bkg-1
+            bkg-2
+            bkg-3
+            bkg-4
+            bkg-5;
+
+        $background-images:
+            '#{$sprite}Monarch2.gif'
+            '#{$image}bkg.1.jpg'
+            '#{$image}2-01.jpg'
+            '#{$image}bkg.3.jpg'
+            '#{$image}bkg.4.jpg'
+            '#{$image}bkg.5-01.jpg';
+
+        @for $i from 1 through length($background-titles) {
+            &.#{nth($background-titles, $i)} {
+                @include background(nth($background-images, $i));
+            }
+        }
+    }
+}
+
+.frame {
+    @include center;
+    @include background('#{$frame}transition.frame.png');
+    width: 780px;
+    height: 500px;
+
+    &.standard {
+        @include background('#{$frame}frame.big.png');
+    }
+
+    &.fact,
+    &.replay {
+        .content {
+            margin: -5%;
+        }
+    }
+
+    &.fact {
+        @include background('#{$frame}monarch.fact.png');
+        margin-left: 40px;
+
+        p {
+            font-size: 30px;
+        }
+    }
+
+    &.replay {
+        @include background('#{$frame}try.again.frame.png');
+    }
+
+    .content {
+        @include center;
+        width: 90%;
+        color: $black;
+    }
+}
+
+.skoash-game.VOICE-OVER:not(.DEMO) .reveal .close-reveal {
+    display: none;
+}
+
+.reveal {
+    @include reveal;
+}

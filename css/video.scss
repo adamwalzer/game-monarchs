@@ -1,0 +1,79 @@
+@import 'variables';
+@import 'mixins';
+
+[id^='info-video-'] {
+    .video-container {
+        @include center;
+        position: absolute;
+        background: url('#{$frame}vid_frame.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        width: 67%;
+        height: 75%;
+    }
+
+    video {
+        margin-top: 40px;
+        width: 565px;
+    }
+}
+
+[id^='video-'] {
+    .copy-container,
+    .video-container {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 38%;
+        height: 60%;
+        text-align: center;
+    }
+
+    .video-container {
+        border: 7px solid $light-orange;
+        border-radius: 50px;
+        box-shadow: 0 0 0 8px $dark-orange;
+        background-color: $transparent-white;
+
+        &::before {
+            @include center;
+            position: absolute;
+            border: 5px solid $black;
+            border-radius: 60px;
+            box-shadow: 0 0 0 5px;
+            width: 107%;
+            height: 108%;
+            content: '';
+        }
+    }
+
+    .copy-container {
+        padding: 4% 0;
+
+        .copy {
+            color: $black;
+            font-size: 22px;
+        }
+    }
+}
+
+#video-pupa {
+    .video-container {
+        left: 50%;
+    }
+
+    .copy-container {
+        left: 12%;
+    }
+}
+
+#video-monarch {
+    .video-container {
+        left: 12%;
+    }
+
+    .copy-container {
+        left: 50%;
+    }
+}

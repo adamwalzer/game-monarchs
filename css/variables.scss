@@ -1,0 +1,30 @@
+$media: $media-server + 'Games/monarch/';
+$sprite: $media + 'SpritesAnimations/';
+$image: $media + 'ImageAssets/';
+$frame: $media + 'Frames/';
+$font: $media + 'Font/';
+
+$black: #000;
+$bright-green: #008000;
+$light-green: #95c13d;
+$dark-green: #315a16;
+$grass: #7ab738;
+$green: #81fe46;
+$green-border: #75bc43;
+$imagine-green: #006d05;
+$light-grey: #f9f9f9;
+$light-purple: #683eb5;
+$purple: #671db0;
+$red-border: #9e1d20;
+$text-color: #fff;
+$white: #fff;
+$dark-orange: #e06905;
+$light-orange: #ffc200;
+$orange: #ffa500;
+$white-transparancy: rgba(250, 250, 250, .15);
+
+$transparent: transparent;
+$transparent-white: rgba(255, 255, 255, .5);
+$transparent-blue: rgba(68, 198, 234, .56);
+$transparent-grey: rgba(99, 100, 100, .75);
+$transparent-red: rgba(153, 26, 53, .71);

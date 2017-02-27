@@ -1,0 +1,23 @@
+@import 'variables';
+@import 'mixins';
+
+#quit {
+    .container {
+        @include center;
+        position: absolute;
+        width: 80%;
+        height: 60%;
+        text-align: center;
+        text-shadow: 5px  1px 0 $black,
+                    -1px  1px 0 $black,
+                     1px -1px 0 $black,
+                    -1px -1px 0 $black;
+        color: $light-orange;
+
+        h2,
+        h3 {
+            line-height: 60px;
+            font-size: 40px;
+        }
+    }
+}

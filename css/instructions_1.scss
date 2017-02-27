@@ -1,0 +1,50 @@
+@import 'variables';
+@import 'mixins';
+
+#instructions-1 {
+    background: url('#{$image}img.leaves.png');
+    background-repeat: no-repeat;
+    background-position: 200% bottom;
+    background-size: auto 120%;
+
+    .frame.standard {
+        @include center;
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        color: $black;
+
+        .header,
+        .copy {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
+
+        .header {
+            top: 25%;
+            text-decoration: underline;
+            font-size: 27px;
+            font-weight: 600;
+        }
+
+        .copy {
+            top: 40%;
+            font-size: 22px;
+        }
+
+        &::after {
+            position: absolute;
+            top: -20%;
+            left: 1%;
+            background: url('#{$sprite}sprite.life.png');
+            background-position: 33% 0;
+            background-size: auto 200%;
+            width: 40%;
+            height: 50%;
+            content: '';
+        }
+
+    }
+}

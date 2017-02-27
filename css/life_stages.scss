@@ -1,0 +1,237 @@
+@import 'variables';
+@import 'mixins';
+
+#life-stages {
+    .header {
+        position: absolute;
+        top: 2%;
+        width: 100%;
+        text-shadow: 4px 3px 0 $black;
+        color: $orange;
+        font-family: Japers;
+        font-size: 35px;
+    }
+
+    .selectable {
+        @include center;
+        position: absolute;
+        top: 55%;
+        border: 7px solid $light-orange;
+        border-radius: 50px;
+        box-shadow: 0 0 0 8px $dark-orange;
+        background-color: $transparent-white;
+        width: 68%;
+        height: 70%;
+
+        &::before {
+            @include center;
+            position: absolute;
+            border: 5px solid $black;
+            border-radius: 60px;
+            box-shadow: 0 0 0 5px;
+            width: 104%;
+            height: 107%;
+            content: '';
+        }
+
+        &::after {
+            @include center;
+            position: absolute;
+            z-index: -1;
+            background: url('#{$image}brokenlines.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 110%;
+            width: 100%;
+            height: 100%;
+            content: '';
+        }
+
+        .question-mark {
+            position: absolute;
+            background: url('#{$sprite}sprite.questionmark.png');
+            background-size: 100% auto;
+            width: 130px;
+            height: 180px;
+
+            $tops: 45%  5% 50%  8%;
+            $lefts: 0% 25% 55% 80%;
+
+            @for $i from 1 through length($tops) {
+                &:nth-of-type(#{$i}) {
+                    top: #{nth($tops, $i)};
+                    left: #{nth($lefts, $i)};
+                }
+            }
+
+            &:not(:nth-of-type(1)) {
+                pointer-events: none;
+            }
+
+            &.HIGHLIGHTED {
+                width: 150px;
+                height: 100px;
+
+                $highlighted-tops: 58% 12% 58% 10%;
+
+                @for $i from 1 through length($highlighted-tops) {
+                    &:nth-of-type(#{$i}) {
+                        @include life-cycle($i, 150px, 100px);
+                        top: #{nth($highlighted-tops, $i)};
+                    }
+                }
+
+                + li {
+                    pointer-events: auto;
+
+                    .VOICE-OVER & {
+                        pointer-events: none;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .reveal {
+        .frame {
+            position: absolute;
+            width: 40%;
+            height: 45%;
+
+            .life {
+                position: absolute;
+                width: 150px;
+                height: 100px;
+            }
+
+            .label {
+                position: absolute;
+                color: $black;
+                font-size: 24px;
+            }
+
+            .copy {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                color: $black;
+                font-size: 14px;
+            }
+
+            &.egg {
+                top: 68%;
+                left: 23%;
+
+                .life {
+                    @include life-cycle(1, 150px, 100px);
+                    top: 20%;
+                    left: 8%;
+                }
+
+                .label {
+                    top: 55%;
+                    left: 20%;
+                }
+
+                .copy {
+                    left: 47%;
+                }
+            }
+
+            &.caterpillar {
+                top: 37%;
+                left: 41%;
+
+                .life {
+                    @include life-cycle(2, 150px, 100px);
+                    top: 41%;
+                    left: 10%;
+                }
+
+                .label {
+                    top: 35%;
+                    left: 11%;
+                }
+
+                .copy {
+                    left: 47%;
+                }
+            }
+
+            &.pupa {
+                top: 70%;
+                left: 60%;
+
+                .life {
+                    @include life-cycle(3, 150px, 100px);
+                    top: 20%;
+                    left: 11%;
+                }
+
+                .label {
+                    top: 62%;
+                    left: 20%;
+                }
+
+                .copy {
+                    left: 46%;
+                }
+            }
+
+            &.monarch {
+                top: 40%;
+                left: 76%;
+
+                .life {
+                    @include life-cycle(4, 150px, 100px);
+                    top: 35%;
+                    left: 8%;
+                }
+
+                .label {
+                    top: 22%;
+                    left: 15%;
+                }
+
+                .copy {
+                    left: 46%;
+                }
+            }
+        }
+
+        .close-reveal {
+            @include nav-button(6, 55px, 55px);
+            width: 55px;
+            height: 55px;
+        }
+
+        &.open-egg {
+            .close-reveal {
+                top: 47%;
+                left: 36%;
+            }
+        }
+
+        &.open-caterpillar {
+            .close-reveal {
+                top: 15%;
+                left: 54%;
+            }
+        }
+
+        &.open-pupa {
+            .close-reveal {
+                top: 48%;
+                left: 73%;
+            }
+        }
+
+        &.open-monarch {
+            .close-reveal {
+                top: 18%;
+                left: 89%;
+            }
+        }
+    }
+}

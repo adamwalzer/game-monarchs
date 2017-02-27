@@ -1,0 +1,56 @@
+@import 'variables';
+@import 'mixins';
+
+#info-you-won {
+    background: url('#{$image}img.leaves.png');
+    background-repeat: no-repeat;
+    background-position: 200% bottom;
+    background-size: auto 120%;
+
+    .header,
+    .copy {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+    }
+
+    .header {
+        top: 5%;
+        text-shadow: 6px  3px 0 $black,
+                    -2px  2px 0 $black,
+                     2px -2px 0 $black,
+                    -2px -2px 0 $black;
+        color: $light-orange;
+        font-size: 60px;
+        font-weight: 600;
+    }
+
+    .frame {
+        @include center;
+        position: absolute;
+        top: 55%;
+        width: 66%;
+        height: 75%;
+        color: $black;
+
+
+        .copy {
+            top: 32%;
+            font-size: 25px;
+        }
+
+        &::after {
+            position: absolute;
+            top: -20%;
+            left: -5%;
+            background: url('#{$sprite}sprite.life.png');
+            background-position: 33% 0;
+            background-size: auto 200%;
+            width: 45%;
+            height: 50%;
+            content: '';
+        }
+
+    }
+}

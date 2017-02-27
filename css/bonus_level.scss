@@ -1,0 +1,243 @@
+@import 'variables';
+@import 'mixins';
+
+[id^='bonus-level-'] {
+    .reveal {
+        transition: opacity 1s;
+        opacity: 0;
+
+        .reveal-frame {
+            @include center;
+            position: absolute;
+            width: 68%;
+            height: 76%;
+
+            &.complete {
+                span {
+                    position: absolute;
+                    top: 10%;
+                    left: 55%;
+                    width: 200px;
+                    height: 700px;
+                    text-shadow: 10px 5px 0 $black;
+                    color: $light-orange;
+                    font-size: 200px;
+                    font-weight: 600;
+                    transform-origin: bottom center;
+                }
+
+                $degrees: -35 -18 1 15 25 35;
+
+                @for $i from 1 through length($degrees) {
+                    .char#{$i} {
+                        transform: translateX(-50%) rotate(nth($degrees, $i)deg);
+                    }
+                }
+            }
+        }
+
+        .labyrinth-frame {
+            border: 5px solid $light-orange;
+            border-radius: 30px;
+            box-shadow: 0 0 0 5px $black;
+            background: url('#{$image}grass-01.jpg');
+            background-size: cover;
+
+            &::before {
+                @include center;
+                position: absolute;
+                border: 5px solid;
+                border-radius: 40px;
+                background: $white-transparancy;
+                width: 103%;
+                height: 104%;
+                content: '';
+            }
+
+            &.instructions {
+                .header {
+                    position: absolute;
+                    top: 15%;
+                    width: 100%;
+                    text-shadow: 3px 3px 0 $black;
+                    color: $light-orange;
+                    font-family: Japers;
+                    font-size: 90px;
+                }
+
+                .copy {
+                    position: absolute;
+                    top: 40%;
+                    left: 0;
+                    width: 100%;
+                    line-height: 40px;
+                    font-size: 30px;
+                }
+            }
+
+            &.countdown {
+                .number {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    animation-duration: 2s;
+                    animation-fill-mode: forwards;
+                    opacity: 0;
+                    width: 100%;
+                    text-shadow: 10px 10px 0 $black;
+                    color: $light-orange;
+                    font-size: 400px;
+                }
+
+                &.OPEN {
+                    .number {
+                        animation-name: number-flash;
+                    }
+                }
+
+                .two {
+                    animation-delay: 2s;
+                }
+
+                .one {
+                    animation-delay: 4s;
+                }
+            }
+        }
+
+        .close-reveal {
+            @include nav-button(5, 140px, 65px);
+            position: absolute;
+            right: 15px;
+            bottom: 10px;
+            width: 140px;
+            height: 65px;
+        }
+
+        &.open-complete .close-reveal {
+            display: none;
+        }
+
+        &.open-instructions ~ *,
+        &.open-countdown ~ * {
+            display: none;
+        }
+    }
+
+    .score-container,
+    .timer-container {
+        position: absolute;
+        left: 2%;
+        transition: opacity 1s;
+        opacity: 0;
+        width: 20%;
+        text-align: left;
+        color: $black;
+        font-family: Japers;
+
+        * {
+            display: inline;
+        }
+
+        .label {
+            @include text-stroke(2, $black);
+            color: $light-green;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .timer,
+        .score {
+            font-size: 20px;
+            font-weight: 900;
+        }
+    }
+
+    .timer-container {
+        top: 8%;
+    }
+
+    .score-container {
+        top: 15%;
+    }
+
+    .labyrinth {
+        @include center;
+        position: absolute;
+        top: 45%;
+        left: 55%;
+        transition: opacity 1s;
+        opacity: 0;
+        width: 70%;
+        height: 80%;
+
+        .canvas,
+        .image,
+        .map {
+            @include cover;
+        }
+
+        .player {
+            position: absolute;
+            border: 1px solid $black;
+            width: 10px;
+            height: 10px;
+
+            &::after {
+                @include center;
+                position: absolute;
+                background: url('#{$sprite}sprite.life.png');
+                background-position: 33% 15%;
+                background-size: auto 340%;
+                width: 1160%;
+                height: 500%;
+                content: '';
+            }
+        }
+
+        .interactive-item {
+            position: absolute;
+            transition: opacity 1s;
+            opacity: 1;
+            background: url('#{$image}maze.leaf.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 100% auto;
+            width: 50px;
+            height: 40px;
+        }
+    }
+
+    &.STARTED {
+        .reveal,
+        .score-container,
+        .timer-container,
+        .labyrinth {
+            opacity: 1;
+        }
+    }
+}
+
+$levels: one two;
+$item-tops-array:
+    (100  45  45  215 255 230 135 95 265 175 305 355 355)
+     (40  45 90 135 205 200 200 245 300 290 350  260 355);
+$item-lefts-array:
+    (350 490 565  560 460 310 215 60 110 155 240  60 460)
+    (250 495 95 305 535  60 190 290  60 245 155  455 480);
+@for $i from 1 through length($levels) {
+    #bonus-level-#{nth($levels, $i)} {
+        $item-tops: nth($item-tops-array, $i);
+        $item-lefts: nth($item-lefts-array, $i);
+        @for $j from 1 through length($item-tops) {
+            &.item-#{$j} {
+                top: #{nth($item-tops, $j)}px;
+                left: #{nth($item-lefts, $j)}px;
+            }
+        }
+
+        &.COMPLETE {
+            opacity: 0;
+        }
+    }
+}

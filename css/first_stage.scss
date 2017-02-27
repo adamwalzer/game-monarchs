@@ -1,0 +1,43 @@
+@import 'variables';
+@import 'mixins';
+
+#first-stage {
+    .frame {
+        @include center;
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        color: $black;
+
+        .header,
+        .copy {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
+
+        .header {
+            top: 23%;
+            font-size: 27px;
+        }
+
+        .copy {
+            top: 41%;
+            font-size: 22px;
+        }
+
+        &::after {
+            position: absolute;
+            top: -20%;
+            left: 1%;
+            background: url('#{$sprite}sprite.life.png');
+            background-position: 33% 0;
+            background-size: auto 200%;
+            width: 40%;
+            height: 50%;
+            content: '';
+        }
+
+    }
+}

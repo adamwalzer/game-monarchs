@@ -1,0 +1,22 @@
+@import 'variables';
+@import 'mixins';
+
+#info-migrate {
+    .butterfly {
+        position: absolute;
+        bottom: -10%;
+        left: -10%;
+        transform: rotate(45deg);
+        width: 56%;
+    }
+
+    .copy-container {
+        position: absolute;
+        top: 18%;
+        right: 0;
+        width: 60%;
+        line-height: 34px;
+        color: $black;
+        font-size: 26px;
+    }
+}

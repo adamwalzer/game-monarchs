@@ -1,0 +1,158 @@
+@import 'variables';
+@import 'mixins';
+
+[id*=monarch-generations] {
+    .path {
+        @include background('#{$image}path.png');
+        @include cover;
+
+        $tops:  240 100 135;
+        $lefts: 370 100 620;
+        @for $i from 1 through 3 {
+            .circle-#{$i} {
+                @include background('#{$frame}circle-border.png');
+                position: absolute;
+                top: #{nth($tops, $i)}px;
+                left: #{nth($lefts, $i)}px;
+                padding: 10px;
+
+                &::before {
+                    @include sprite-circle($i);
+                    display: block;
+                    content: '';
+                }
+
+                div {
+                    @include sprite-circle-star-grey;
+                    position: absolute;
+                    top: -20px;
+                    left: 50%;
+
+                    &.earned {
+                        @include sprite-circle-star;
+                    }
+
+                    @for $j from 1 through 3 {
+                        &:nth-of-type(#{$j}) {
+                            transform: translateX(-50%) rotate(#{-40 + 20 * $j}deg);
+                            transform-origin: 50% 300%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .selectable {
+        $tops: 303 400  55 130;
+        $lefts: 40 650 320 800;
+        @for $i from 1 through length($tops) {
+            .butterfly-#{$i} {
+                @include sprite-butterfly($i);
+                position: absolute;
+                top: #{nth($tops, $i)}px;
+                left: #{nth($lefts, $i)}px;
+                animation-duration: 2s;
+                animation-timing-function: linear;
+                animation-fill-mode: forwards;
+                pointer-events: none;
+
+                &.animate {
+                    animation-name: butterfly-fly-#{$i};
+                }
+            }
+        }
+    }
+
+    .reveal {
+        &.open-instructions {
+            .close-reveal {
+                @include cover;
+                background: none;
+            }
+        }
+
+        &.open-fact {
+            .close-reveal {
+                @include nav-button(6, 60px, 60px);
+                right: 200px;
+                bottom: 390px;
+            }
+        }
+
+        .instructions {
+            background-color: $transparent-grey;
+            width: 100%;
+            height: 100%;
+
+            h4 {
+                margin-top: 15px;
+                text-shadow: 4px 4px 0 $black;
+                font-size: 36px;
+            }
+
+            p {
+                position: absolute;
+                top: 280px;
+                left: 210px;
+                font-size: 28px;
+            }
+
+            .butterfly-a,
+            .butterfly-b {
+                position: absolute;
+                transform: scale(.5);
+            }
+
+            .butterfly-a {
+                top: 286px;
+                left: 14px;
+            }
+
+            .butterfly-b {
+                top: 38px;
+                left: 296px;
+            }
+
+            .arrow-1,
+            .arrow-2 {
+                position: absolute;
+            }
+
+            .arrow-1 {
+                top: 130px;
+                left: 40px;
+                transform: scale(.5) rotate(220deg);
+            }
+
+            .arrow-2 {
+                top: 70px;
+                left: 240px;
+                transform: scale(.5);
+            }
+        }
+
+        .fact {
+            @include background('#{$frame}frame.big.png');
+            width: 620px;
+            height: 400px;
+            color: $black;
+
+            p {
+                @include center;
+                width: 80%;
+                font-size: 24px;
+            }
+        }
+    }
+}
+
+@for $i from 1 through 4 {
+    #monarch-generations-#{$i} {
+        .selectable {
+            .butterfly-#{$i} {
+                pointer-events: auto;
+            }
+        }
+    }
+}
