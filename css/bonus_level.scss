@@ -30,7 +30,7 @@
 
                 @for $i from 1 through length($degrees) {
                     .char#{$i} {
-                        transform: translateX(-50%) rotate(nth($degrees, $i)deg);
+                        transform: translateX(-50%) rotate(#{nth($degrees, $i)}deg);
                     }
                 }
             }
@@ -205,6 +205,10 @@
             background-size: 100% auto;
             width: 50px;
             height: 40px;
+
+            &.COMPLETE {
+                opacity: 0;
+            }
         }
     }
 
@@ -230,14 +234,10 @@ $item-lefts-array:
         $item-tops: nth($item-tops-array, $i);
         $item-lefts: nth($item-lefts-array, $i);
         @for $j from 1 through length($item-tops) {
-            &.item-#{$j} {
+            .item-#{$j} {
                 top: #{nth($item-tops, $j)}px;
                 left: #{nth($item-lefts, $j)}px;
             }
-        }
-
-        &.COMPLETE {
-            opacity: 0;
         }
     }
 }
