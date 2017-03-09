@@ -47,7 +47,6 @@ skoash.start(
         screens={[
             iOSScreen,
             TitleScreen,
-            /*
             InfoVideoOneScreen,
             LifeStagesScreen,
             FirstStageScreen,
@@ -59,7 +58,6 @@ skoash.start(
             InfoMigrateScreen,
             InfoVideoTwoScreen,
             MonarchGenerationOneScreen,
-            */
             LevelOneScreen,
             MonarchGenerationTwoScreen,
             LevelTwoScreen,
