@@ -4,6 +4,7 @@
 
 @include reset;
 @include bootstrap-game;
+@include game-embedder;
 
 html {
     color: $text-color;

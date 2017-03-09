@@ -12,6 +12,7 @@ export default function (props, ref, key) {
                     delay={1000}
                     src={`${MEDIA.EFFECT}Shake.mp3`}
                     onComplete={function () {
+                        if (_.get(props, 'gameState.currentScreenIndex') !== key) return;
                         this.play();
                     }}
                 />

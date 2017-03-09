@@ -25,6 +25,21 @@ import MonarchGenerationFourScreen from './components/monarch_generation_four_sc
 import FlipScreen from './components/flip_screen';
 import QuitScreen from './components/quit_screen';
 
+let onRespond = function (options) {
+    let level = _.get(this, 'props.gameState.data.game.state', 1);
+
+    if (_.get(options, `updateGameState.data.game.levels.${level}.hits`) === 10) {
+        this.updateGameData({
+            keys: ['game', 'levels', `${level}`, 'complete'],
+            data: true,
+        });
+    }
+
+    if (_.get(options, `updateGameState.data.game.levels.${level}.start`)) {
+        window.focus();
+    }
+};
+
 skoash.start(
     <skoash.Game
         config={config}
@@ -32,6 +47,7 @@ skoash.start(
         screens={[
             iOSScreen,
             TitleScreen,
+            /*
             InfoVideoOneScreen,
             LifeStagesScreen,
             FirstStageScreen,
@@ -43,6 +59,7 @@ skoash.start(
             InfoMigrateScreen,
             InfoVideoTwoScreen,
             MonarchGenerationOneScreen,
+            */
             LevelOneScreen,
             MonarchGenerationTwoScreen,
             LevelTwoScreen,
@@ -155,6 +172,23 @@ skoash.start(
                 case 'info-video-one':
                     return; // no bkg audio
             }
+        }}
+        renderExtras={function () {
+            let dPad = _.get(this, `state.data.screens.${this.state.currentScreenIndex}.d-pad`, {});
+            let data = _.get(this, 'state.data.game', {});
+            return (
+                <skoash.GameEmbedder
+                    ref="gameEmbedder"
+                    controller={dPad}
+                    src={'../monarchs-flyer/index.html'}
+                    data={data}
+                    state={data.state}
+                    pause={dPad.pause || this.state.paused}
+                    resume={!dPad.pause && !this.state.paused}
+                    gameState={this.state}
+                    onRespond={onRespond}
+                />
+            );
         }}
     />
 );
