@@ -1,12 +1,11 @@
 export default function (props, ref, key, opts = {}) {
-    var startScreen;
-    var onScreenStart;
-    var getGameSrc;
-    var onOpenReveal;
-    var onCloseReveal;
-    var onRespond;
-    var onTimerComplete;
-    var onScoreComplete;
+    let startScreen;
+    let onScreenStart;
+    let onScreenStop;
+    let onOpenReveal;
+    let onCloseReveal;
+    let onTimerComplete;
+    let onScoreComplete;
 
     startScreen = function (screenStart = true) {
         this.updateGameState({
@@ -18,7 +17,7 @@ export default function (props, ref, key, opts = {}) {
     };
 
     onScreenStart = function (screenStart = true) {
-        var gameData = _.get(props, 'gameState.data.game');
+        let gameData = _.get(props, 'gameState.data.game');
 
         startScreen.call(this, screenStart);
 
@@ -32,35 +31,48 @@ export default function (props, ref, key, opts = {}) {
             });
         }
 
-        this.updateGameState({
-            path: ['game'],
-            data: _.defaults(gameData, {
+        this.updateGameData({
+            key: 'game',
+            data: _.defaults({
+                state: opts.level,
+            }, gameData, {
                 levels: {
                     [opts.level]: {
                         hits: 0,
                         score: 0,
                         stars: 0,
                     }
-                }
+                },
             }),
         });
     };
 
-    getGameSrc = function () {
-        if (!_.get(props, 'data.game.screenStart')) return;
-        return `../monarchs-flyer/index.html?v=${opts.level}`;
-    };
-
-    onOpenReveal = function () {
-        this.updateGameState({
-            path: 'd-pad',
+    onScreenStop = function () {
+        this.updateGameData({
+            key: 'game',
             data: {
-                pause: true
+                levels: {
+                    [opts.level]: {
+                        start: false,
+                    }
+                },
+                state: 'default',
             },
         });
+    };
 
-        this.updateGameState({
-            path: ['game'],
+    onOpenReveal = function (message) {
+        setTimeout(() => {
+            this.updateScreenData({
+                key: 'd-pad',
+                data: {
+                    pause: true
+                },
+            });
+        }, 500);
+
+        this.updateGameData({
+            key: 'game',
             data: {
                 levels: {
                     [opts.level]: {
@@ -69,30 +81,40 @@ export default function (props, ref, key, opts = {}) {
                 }
             },
         });
+
+        if (message === 'replay') {
+            this.updateGameData({
+                key: 'game',
+                data: {
+                    state: 'default',
+                },
+                callback: onScreenStart.bind(this)
+            });
+        }
     };
 
     onCloseReveal = function (prevMessage) {
-        var stars = _.get(props, `gameState.data.game.levels.${opts.level}.stars`, 0);
+        let stars = _.get(props, `gameState.data.game.levels.${opts.level}.stars`, 0);
 
         if (!prevMessage) return;
 
-        this.updateGameState({
-            path: 'reveal',
-            data: {
-                open: null,
-            }
-        });
-
-        this.updateGameState({
-            path: 'd-pad',
+        this.updateScreenData({
+            key: 'd-pad',
             data: {
                 pause: false
             },
         });
 
         if (prevMessage === 'instructions') {
-            this.updateGameState({
-                path: ['game'],
+            this.updateScreenData({
+                key: 'reveal',
+                data: {
+                    open: null,
+                }
+            });
+
+            this.updateGameData({
+                key: 'game',
                 data: {
                     levels: {
                         [opts.level]: {
@@ -104,29 +126,33 @@ export default function (props, ref, key, opts = {}) {
         } else if (prevMessage === 'replay') {
             onScreenStart.call(this, false);
 
-            this.updateGameState({
-                path: ['game'],
+            this.updateScreenData({
+                key: 'reveal',
+                data: {
+                    open: null,
+                }
+            });
+
+            this.updateGameData({
+                key: 'game',
                 data: {
                     levels: {
                         [opts.level]: {
-                            start: false,
+                            start: true,
                         }
                     }
                 },
-                callback: () => {
-                    startScreen.call(this);
-                }
             });
         } else if (prevMessage === 'fact-1' && stars > 1) {
-            this.updateGameState({
-                path: 'reveal',
+            this.updateScreenData({
+                key: 'reveal',
                 data: {
                     open: 'fact-2',
                 }
             });
         } else if (prevMessage === 'fact-2' && stars > 2) {
-            this.updateGameState({
-                path: 'reveal',
+            this.updateScreenData({
+                key: 'reveal',
                 data: {
                     open: 'fact-3',
                 }
@@ -136,28 +162,21 @@ export default function (props, ref, key, opts = {}) {
         }
     };
 
-    onRespond = function (options) {
-        if (_.get(options, `updateGameState.data.game.levels.${opts.level}.hits`) === 10) {
-            onTimerComplete.call(this);
-        }
-
-        if (_.get(options, `updateGameState.data.game.levels.${opts.level}.start`)) {
-            window.focus();
-        }
-    };
-
     onTimerComplete = function () {
-        var stars = _.get(props, `gameState.data.game.levels.${opts.level}.stars`, 0);
+        let stars = _.get(props, `gameState.data.game.levels.${opts.level}.stars`, 0);
+
+        if (!_.get(props, `gameState.data.game.levels.${opts.level}.start`, false)) return;
+
         if (!stars) {
-            this.updateGameState({
-                path: 'reveal',
+            this.updateScreenData({
+                key: 'reveal',
                 data: {
                     open: 'replay',
                 }
             });
         } else {
-            this.updateGameState({
-                path: ['game'],
+            this.updateGameData({
+                key: 'game',
                 data: {
                     levels: {
                         [opts.level]: {
@@ -166,12 +185,14 @@ export default function (props, ref, key, opts = {}) {
                                 _.get(props, `gameState.data.game.levels.${opts.level}.mostStars`, 0)),
                             fact2Complete: stars === 1,
                             fact3Complete: stars > 0 && stars < 3,
+                            start: false,
                         }
                     }
                 },
             });
-            this.updateGameState({
-                path: 'reveal',
+
+            this.updateScreenData({
+                key: 'reveal',
                 data: {
                     open: 'fact-1',
                 }
@@ -180,8 +201,8 @@ export default function (props, ref, key, opts = {}) {
     };
 
     onScoreComplete = function () {
-        this.updateGameState({
-            path: ['game'],
+        this.updateGameData({
+            key: 'game',
             data: {
                 levels: {
                     [opts.level]: {
@@ -200,25 +221,20 @@ export default function (props, ref, key, opts = {}) {
             key={key}
             id={`phaser-level-${opts.level}`}
             onStart={onScreenStart}
+            onStop={onScreenStop}
         >
-            <skoash.GameEmbedder
-                src={getGameSrc()}
-                controller={_.get(props, 'data.d-pad')}
-                complete={_.get(props, `gameState.data.game.levels.${opts.level}.complete`, false)}
-                data={_.get(props, 'gameState.data.game', {})}
-                pause={_.get(props, 'data.d-pad.pause')}
-                resume={!_.get(props, 'data.d-pad.pause')}
-                onRespond={onRespond}
-            />
             <skoash.Timer
                 countDown
                 timeout={120000}
                 onComplete={onTimerComplete}
                 pause={
-                    _.get(props, `gameState.data.game.levels.${opts.level}.start`, false) &&
+                    !_.get(props, `gameState.data.game.levels.${opts.level}.start`, false) ||
                     _.get(props, 'data.reveal.open', false)
                 }
-                resume={!_.get(props, 'data.reveal.open', false)}
+                resume={
+                    _.get(props, `gameState.data.game.levels.${opts.level}.start`, false) &&
+                    !_.get(props, 'data.reveal.open', false)
+                }
                 stop={_.get(props, `gameState.data.game.levels.${opts.level}.complete`, false)}
                 complete={_.get(props, `gameState.data.game.levels.${opts.level}.complete`, false)}
                 checkComplete={_.get(props, `gameState.data.game.levels.${opts.level}.start`, false)}
@@ -261,6 +277,7 @@ export default function (props, ref, key, opts = {}) {
                 closeReveal={_.get(props, 'data.reveal.close', false)}
                 onClose={onCloseReveal}
                 onOpen={onOpenReveal}
+                complete
                 list={[
                     <skoash.Component
                         ref="instructions"

@@ -6,7 +6,7 @@
     @include sprite($sprite + 'sprite.mainnav.png', 2000px, 315px, 8, 2, $column, 1, 2, $width, $height);
 }
 
-@mixin sprite-continue($column, $width: 0, $height: 0) {
+@mixin sprite-continue($column: 1, $width: 0, $height: 0) {
     @include sprite($sprite + 'sprite.continue.png', 192px, 105px, 1, 2, $column, 1, 2, $width, $height);
 }
 

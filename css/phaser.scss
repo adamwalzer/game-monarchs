@@ -65,8 +65,13 @@
     }
 
     .reveal {
-        &.open-instructions,
-        &.open-replay {
+        .close-reveal {
+            @include sprite-continue;
+            right: 80px;
+            bottom: 80px;
+        }
+
+        &.open-instructions {
             .close-reveal {
                 @include nav-button(6, 60px, 60px);
                 right: 80px;

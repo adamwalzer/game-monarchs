@@ -65,19 +65,23 @@ export default function (props, ref, key, opts = {}) {
             key={key}
             id={`monarch-generations-${opts.level}`}
         >
-            {hiddenImages}
+            <skoash.Component>
+                {hiddenImages}
+            </skoash.Component>
             <skoash.Component
                 className="path"
             >
-                {_.map([1, 2, 3], level =>
-                    <skoash.Component
-                        className={`circle-${level}`}
-                    >
-                        {_.map([1, 2, 3], star =>
-                            <div className={getStarClassNames(level, star)}/>
-                        )}
-                    </skoash.Component>
-                )}
+                <skoash.Component>
+                    {_.map([1, 2, 3], level =>
+                        <skoash.Component
+                            className={`circle-${level}`}
+                        >
+                            {_.map([1, 2, 3], star =>
+                                <div className={getStarClassNames(level, star)}/>
+                            )}
+                        </skoash.Component>
+                    )}
+                </skoash.Component>
                 <skoash.Selectable
                     onSelect={onSelect}
                     list={_.map([1, 2, 3, 4], star =>
