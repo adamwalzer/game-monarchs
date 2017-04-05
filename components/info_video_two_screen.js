@@ -1,5 +1,4 @@
-const SRC = 'https://res.cloudinary.com/changemyworldnow/video/upload/' +
-    'v1486138692/Monarch_Workout_hmotnk_qdftsp.mp4';
+const SRC = `${CMWN.MEDIA.VIDEO}monarch-workout.mp4`;
 
 export default function (props, ref, key) {
     return (

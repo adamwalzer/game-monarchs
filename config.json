@@ -1,7 +1,7 @@
 {
     "id": "monarch",
     "version": 1,
-    "skoash": "1.1.5",
+    "skoash": "1.1.8",
     "head_injection": "<link href='https://fonts.googleapis.com/css?family=Chelsea+Market' rel='stylesheet'>",
     "dimensions": {
         "width": 960,
